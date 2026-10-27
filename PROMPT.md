@@ -1,4 +1,4 @@
-# PROMPT MAESTRO — 50 artículos de salud en 25 archivos HTML de 2 artículos (CKEditor)
+# PROMPT MAESTRO — 50 artículos de salud en 50 archivos HTML (uno por artículo, CKEditor)
 
 > Pega todo este documento como instrucción en una sesión nueva, en la misma carpeta de trabajo.
 > Ejecuta el encargo completo y **sobrescribe** los archivos existentes sin pedir confirmación.
@@ -7,7 +7,7 @@
 
 ## 1. Objetivo
 
-Redactar **50 artículos de salud completos, originales y profesionales** en español a partir de los títulos de `data.txt`, agrupados en **25 archivos HTML de 2 artículos cada uno**, listos para copiar y pegar en CKEditor. No es una landing page: solo contenido editorial.
+Redactar **50 artículos de salud completos, originales y profesionales** en español a partir de los títulos de `data.txt`, con **un artículo por archivo HTML** (`1.html` … `50.html`), listos para copiar y pegar en CKEditor. No es una landing page: solo contenido editorial.
 
 ## 2. Entrada
 
@@ -28,21 +28,21 @@ Categorías esperadas (en este orden):
 
 ## 3. Salidas (sobrescribir)
 
-En la raíz de la carpeta de trabajo, exactamente **25 archivos de 2 artículos** cada uno: `parte1.html`, `parte2.html` … `parte25.html`.
+En la raíz de la carpeta de trabajo, exactamente **50 archivos, uno por artículo**, numerados en el orden de `data.txt`: `1.html`, `2.html` … `50.html`.
 
-| Archivos | Artículos | Categoría |
-|---|---|---|
-| `parte1` – `parte5` | 1–10 | 1. Nutrición y Alimentación Saludable |
-| `parte6` – `parte10` | 11–20 | 2. Ejercicio, Running y Rendimiento Físico |
-| `parte11` – `parte15` | 21–30 | 3. Bienestar Mental y Manejo del Estrés |
-| `parte16` – `parte20` | 31–40 | 4. Prevención y Salud Preventiva |
-| `parte21` – `parte25` | 41–50 | 5. Estilo de Vida Saludable y Longevidad |
+| Archivos | Categoría |
+|---|---|
+| `1.html` – `10.html` | 1. Nutrición y Alimentación Saludable |
+| `11.html` – `20.html` | 2. Ejercicio, Running y Rendimiento Físico |
+| `21.html` – `30.html` | 3. Bienestar Mental y Manejo del Estrés |
+| `31.html` – `40.html` | 4. Prevención y Salud Preventiva |
+| `41.html` – `50.html` | 5. Estilo de Vida Saludable y Longevidad |
 
-- Cada archivo lleva exactamente **2 artículos consecutivos**, en el orden de `data.txt`.
-- El divisor de categoría aparece **solo** en `parte1`, `parte6`, `parte11`, `parte16` y `parte21`.
+- Cada archivo lleva **exactamente un artículo**: `<article id="art-N-M">`, donde `N` es la categoría (1–5) y `M` la posición dentro de ella (1–10).
+- El divisor de categoría aparece **solo** en `1.html`, `11.html`, `21.html`, `31.html` y `41.html`.
 - Si existen, reemplaza su contenido por completo (no dupliques, no anexes, no guardes copias en la raíz).
 - UTF-8 sin BOM, saltos de línea `\n`.
-- No generes un `articulos.html` maestro, ni `1-10.html`, ni una página índice.
+- No generes un `articulos.html` maestro, ni archivos por lotes, ni una página índice.
 
 ## 4. Reglas de formato (obligatorias, carácter por carácter)
 
@@ -112,7 +112,7 @@ Cada `<li>` lleva su span. No uses `<ol>`.
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Artículos 1-2 — Nutrición y Alimentación Saludable</title>
+<title>Título exacto del artículo</title>
 <style>
   body { margin: 0; background: #f5f6f8; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .contenedor { max-width: 820px; margin: 0 auto; padding: 40px 24px 60px; background: #ffffff; }
@@ -130,7 +130,7 @@ Cada `<li>` lleva su span. No uses `<ol>`.
 
 [divisor de categoría: solo si el archivo abre una categoría]
 
-[2 bloques <article>, separados por una línea en blanco]
+[1 bloque <article>]
 
 <div class="nota-final">
 <p><span style="color:hsl(0, 0%, 30%);"><strong>Nota editorial:</strong> este contenido tiene finalidad informativa y educativa, y no sustituye la valoración, el diagnóstico ni el tratamiento de un profesional de la salud. Antes de iniciar un plan de alimentación, un programa de entrenamiento o suplementación, consulta con tu médico o especialista de confianza, especialmente si tienes enfermedades crónicas, tomas medicación o estás embarazada.</span></p>
@@ -140,7 +140,7 @@ Cada `<li>` lleva su span. No uses `<ol>`.
 </html>
 ```
 
-El `<title>` de cada archivo: `Artículos 1-2 — <categoría>` (ajusta el rango de dos artículos).
+El `<title>` de cada archivo es el título exacto del artículo (mismo texto que el `<h1>`).
 
 ## 5. Estructura de cada artículo
 
@@ -172,24 +172,25 @@ El `<title>` de cada archivo: `Artículos 1-2 — <categoría>` (ajusta el rango
    - Límite de 8 agentes activos por tanda: lanza 8, y al liberarse cupo lanza los 2 restantes.
    - Cada encargo debe incluir: ruta del `_formato.md`, títulos literales, ids, categoría, número de palabras, estructura y criterios de verificación.
 4. **Validar cada bloque** antes de ensamblar (script en `_trabajo`, ver sección 8).
-5. **Ensamblar los 25 archivos**: recorre los 50 artículos en orden, toma pares consecutivos y arma `parte1.html` … `parte25.html` con: shell de 4.8 + bloque `a` (que ya trae el divisor, solo se conserva en el primer archivo de cada categoría) + bloque `b` + nota final. Sobrescribe los existentes.
+5. **Ensamblar los 50 archivos**: recorre los 50 artículos en orden y escribe `1.html` … `50.html` con: shell de 4.8 + divisor (solo en `1.html`, `11.html`, `21.html`, `31.html` y `41.html`; descarta el que traigan los demás bloques) + el `<article>` + nota final. Sobrescribe los existentes.
 6. **Validación global** (sección 8). Corrige y reensambla hasta que no haya incidencias.
 7. **Normalizar el registro**: busca y corrige cualquier forma de usted o mezcla de tratamiento; reconstruye los archivos.
-8. **Ordenar el workspace**: en la raíz solo `data.txt`, `PROMPT.md` y los 25 HTML; todo lo auxiliar (partes, scripts, especificación, copias) dentro de `_trabajo/`.
+8. **Ordenar el workspace**: en la raíz solo `data.txt`, `PROMPT.md` y los 50 HTML; todo lo auxiliar (partes, scripts, especificación, copias) dentro de `_trabajo/`.
 9. **Responder** con una tabla de archivos (artículos y palabras) y el resumen de las verificaciones.
 
 ## 8. Validación obligatoria (no a ojo: con script)
 
 Comprueba y reporta:
 
-- 25 archivos (`parte1.html` … `parte25.html`), 2 artículos cada uno, 50 en total, con ids `art-1-1` … `art-5-10` únicos.
-- El divisor de categoría aparece únicamente en `parte1`, `parte6`, `parte11`, `parte16` y `parte21`.
+- 50 archivos (`1.html` … `50.html`), un artículo cada uno, con ids `art-1-1` … `art-5-10` únicos y correlativos: para el archivo `N`, el id es `art-C-P` con `C = ⌈N/10⌉` y `P = ((N−1) mod 10) + 1`.
+- El divisor de categoría aparece únicamente en `1.html`, `11.html`, `21.html`, `31.html` y `41.html`.
+- El `<title>` de cada archivo coincide con el texto de su `<h1>`.
 - Los 50 `<h1>` coinciden con los títulos de `data.txt` (normalizando mayúsculas, comillas y puntuación), en el mismo orden y categoría.
 - **Todos** los `<h2>` son idénticos a la plantilla 4.1 (comparación literal del atributo `style`). Cero desviaciones.
 - **Todos** los `<p>` de contenido cumplen 4.2; cero párrafos sin span.
 - Hay un `<p>&nbsp;</p>` inmediatamente antes de cada `<h2>`.
 - Sin `<h3>`, `<h4>`, `<br>`, `<script>`, ni “Sección:” en subtítulos.
-- Ningún artículo por debajo de 750 palabras; total del documento entre 45.000 y 55.000 palabras.
+- Ningún artículo por debajo de 750 palabras; total del conjunto entre 45.000 y 55.000 palabras.
 - Sin frases de 12+ palabras repetidas entre artículos distintos; sin comillas rectas en texto visible; sin dobles espacios.
 - Etiquetas balanceadas: `<article>`, `<p>`, `<ul>`, `<li>`, `<h1>`, `<h2>` abren y cierran en igual número; cada archivo termina en `</html>`.
 
@@ -197,7 +198,7 @@ Números de referencia de la ejecución anterior: 342 `<h2>`, 899 párrafos de c
 
 ## 9. Restricciones finales
 
-- No escribas una landing page, índice, menú ni formulario: solo los 25 archivos con los artículos.
+- No escribas una landing page, índice, menú ni formulario: solo los 50 archivos con los artículos.
 - No añadas texto tuyo dentro del contenido (ni notas del proceso, ni “aquí tienes”, ni placeholders).
-- No pidas confirmación para sobrescribir: la instrucción es reemplazar los 25 archivos existentes.
+- No pidas confirmación para sobrescribir: la instrucción es reemplazar los 50 archivos existentes.
 - Si `data.txt` no tiene 50 títulos o cambia de formato, detente y reporta la diferencia antes de redactar.
