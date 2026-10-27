@@ -1,4 +1,4 @@
-# PROMPT MAESTRO — 50 artículos de salud en 5 archivos HTML (CKEditor)
+# PROMPT MAESTRO — 50 artículos de salud en 25 archivos HTML de 2 artículos (CKEditor)
 
 > Pega todo este documento como instrucción en una sesión nueva, en la misma carpeta de trabajo.
 > Ejecuta el encargo completo y **sobrescribe** los archivos existentes sin pedir confirmación.
@@ -7,7 +7,7 @@
 
 ## 1. Objetivo
 
-Redactar **50 artículos de salud completos, originales y profesionales** en español a partir de los títulos de `data.txt`, agrupados en **5 archivos HTML** de 10 artículos cada uno, listos para copiar y pegar en CKEditor. No es una landing page: solo contenido editorial.
+Redactar **50 artículos de salud completos, originales y profesionales** en español a partir de los títulos de `data.txt`, agrupados en **25 archivos HTML de 2 artículos cada uno**, listos para copiar y pegar en CKEditor. No es una landing page: solo contenido editorial.
 
 ## 2. Entrada
 
@@ -28,19 +28,21 @@ Categorías esperadas (en este orden):
 
 ## 3. Salidas (sobrescribir)
 
-En la raíz de la carpeta de trabajo, exactamente estos cinco archivos:
+En la raíz de la carpeta de trabajo, exactamente **25 archivos de 2 artículos** cada uno: `parte1.html`, `parte2.html` … `parte25.html`.
 
-| Archivo | Artículos | Categoría |
+| Archivos | Artículos | Categoría |
 |---|---|---|
-| `1-10.html` | 1–10 | Categoría 1 |
-| `11-20.html` | 11–20 | Categoría 2 |
-| `21-30.html` | 21–30 | Categoría 3 |
-| `31-40.html` | 31–40 | Categoría 4 |
-| `41-50.html` | 41–50 | Categoría 5 |
+| `parte1` – `parte5` | 1–10 | 1. Nutrición y Alimentación Saludable |
+| `parte6` – `parte10` | 11–20 | 2. Ejercicio, Running y Rendimiento Físico |
+| `parte11` – `parte15` | 21–30 | 3. Bienestar Mental y Manejo del Estrés |
+| `parte16` – `parte20` | 31–40 | 4. Prevención y Salud Preventiva |
+| `parte21` – `parte25` | 41–50 | 5. Estilo de Vida Saludable y Longevidad |
 
+- Cada archivo lleva exactamente **2 artículos consecutivos**, en el orden de `data.txt`.
+- El divisor de categoría aparece **solo** en `parte1`, `parte6`, `parte11`, `parte16` y `parte21`.
 - Si existen, reemplaza su contenido por completo (no dupliques, no anexes, no guardes copias en la raíz).
 - UTF-8 sin BOM, saltos de línea `\n`.
-- No generes un `articulos.html` maestro ni una página índice.
+- No generes un `articulos.html` maestro, ni `1-10.html`, ni una página índice.
 
 ## 4. Reglas de formato (obligatorias, carácter por carácter)
 
@@ -110,7 +112,7 @@ Cada `<li>` lleva su span. No uses `<ol>`.
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Artículos 1-10 — Nutrición y Alimentación Saludable</title>
+<title>Artículos 1-2 — Nutrición y Alimentación Saludable</title>
 <style>
   body { margin: 0; background: #f5f6f8; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   .contenedor { max-width: 820px; margin: 0 auto; padding: 40px 24px 60px; background: #ffffff; }
@@ -126,9 +128,9 @@ Cada `<li>` lleva su span. No uses `<ol>`.
 <body>
 <div class="contenedor">
 
-[divisor de categoría]
+[divisor de categoría: solo si el archivo abre una categoría]
 
-[10 bloques <article>, separados por una línea en blanco]
+[2 bloques <article>, separados por una línea en blanco]
 
 <div class="nota-final">
 <p><span style="color:hsl(0, 0%, 30%);"><strong>Nota editorial:</strong> este contenido tiene finalidad informativa y educativa, y no sustituye la valoración, el diagnóstico ni el tratamiento de un profesional de la salud. Antes de iniciar un plan de alimentación, un programa de entrenamiento o suplementación, consulta con tu médico o especialista de confianza, especialmente si tienes enfermedades crónicas, tomas medicación o estás embarazada.</span></p>
@@ -138,7 +140,7 @@ Cada `<li>` lleva su span. No uses `<ol>`.
 </html>
 ```
 
-El `<title>` de cada archivo: `Artículos 1-10 — <categoría>` (ajusta el rango y la categoría).
+El `<title>` de cada archivo: `Artículos 1-2 — <categoría>` (ajusta el rango de dos artículos).
 
 ## 5. Estructura de cada artículo
 
@@ -170,17 +172,18 @@ El `<title>` de cada archivo: `Artículos 1-10 — <categoría>` (ajusta el rang
    - Límite de 8 agentes activos por tanda: lanza 8, y al liberarse cupo lanza los 2 restantes.
    - Cada encargo debe incluir: ruta del `_formato.md`, títulos literales, ids, categoría, número de palabras, estructura y criterios de verificación.
 4. **Validar cada bloque** antes de ensamblar (script en `_trabajo`, ver sección 8).
-5. **Ensamblar los 5 archivos**: shell de 4.8 + bloque `a` (que ya trae el divisor) + bloque `b` + nota final. Sobrescribe `1-10.html` … `41-50.html`.
+5. **Ensamblar los 25 archivos**: recorre los 50 artículos en orden, toma pares consecutivos y arma `parte1.html` … `parte25.html` con: shell de 4.8 + bloque `a` (que ya trae el divisor, solo se conserva en el primer archivo de cada categoría) + bloque `b` + nota final. Sobrescribe los existentes.
 6. **Validación global** (sección 8). Corrige y reensambla hasta que no haya incidencias.
 7. **Normalizar el registro**: busca y corrige cualquier forma de usted o mezcla de tratamiento; reconstruye los archivos.
-8. **Ordenar el workspace**: en la raíz solo `data.txt` y los 5 HTML; todo lo auxiliar (partes, scripts, especificación, copias) dentro de `_trabajo/`.
+8. **Ordenar el workspace**: en la raíz solo `data.txt`, `PROMPT.md` y los 25 HTML; todo lo auxiliar (partes, scripts, especificación, copias) dentro de `_trabajo/`.
 9. **Responder** con una tabla de archivos (artículos y palabras) y el resumen de las verificaciones.
 
 ## 8. Validación obligatoria (no a ojo: con script)
 
 Comprueba y reporta:
 
-- 5 archivos, 10 artículos cada uno, 50 en total, con ids `art-1-1` … `art-5-10` únicos.
+- 25 archivos (`parte1.html` … `parte25.html`), 2 artículos cada uno, 50 en total, con ids `art-1-1` … `art-5-10` únicos.
+- El divisor de categoría aparece únicamente en `parte1`, `parte6`, `parte11`, `parte16` y `parte21`.
 - Los 50 `<h1>` coinciden con los títulos de `data.txt` (normalizando mayúsculas, comillas y puntuación), en el mismo orden y categoría.
 - **Todos** los `<h2>` son idénticos a la plantilla 4.1 (comparación literal del atributo `style`). Cero desviaciones.
 - **Todos** los `<p>` de contenido cumplen 4.2; cero párrafos sin span.
@@ -190,11 +193,11 @@ Comprueba y reporta:
 - Sin frases de 12+ palabras repetidas entre artículos distintos; sin comillas rectas en texto visible; sin dobles espacios.
 - Etiquetas balanceadas: `<article>`, `<p>`, `<ul>`, `<li>`, `<h1>`, `<h2>` abren y cierran en igual número; cada archivo termina en `</html>`.
 
-Números de referencia de la ejecución anterior: 342 `<h2>`, 900 párrafos de contenido, 342 `<p>&nbsp;</p>` y 49.534 palabras visibles. Si tu ejecución difiere porque cambiaste la longitud, mantén los criterios, no las cifras.
+Números de referencia de la ejecución anterior: 342 `<h2>`, 899 párrafos de contenido en los artículos (más uno de nota editorial por archivo), 342 `<p>&nbsp;</p>` y 49.332 palabras visibles. Si tu ejecución difiere porque cambiaste la longitud, mantén los criterios, no las cifras.
 
 ## 9. Restricciones finales
 
-- No escribas una landing page, índice, menú ni formulario: solo los cinco archivos con los artículos.
+- No escribas una landing page, índice, menú ni formulario: solo los 25 archivos con los artículos.
 - No añadas texto tuyo dentro del contenido (ni notas del proceso, ni “aquí tienes”, ni placeholders).
-- No pidas confirmación para sobrescribir: la instrucción es reemplazar los cinco archivos existentes.
+- No pidas confirmación para sobrescribir: la instrucción es reemplazar los 25 archivos existentes.
 - Si `data.txt` no tiene 50 títulos o cambia de formato, detente y reporta la diferencia antes de redactar.
